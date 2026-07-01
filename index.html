@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evntly — Plan something unforgettable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style3.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-mark">✦</span>
+      <span class="logo-text">Evntly</span>
+    </div>
+    <p class="tagline">the planner that keeps its ticket stub</p>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Your upcoming schedule</p>
+    <h1 class="hero-title">Plan something<br><em>unforgettable.</em></h1>
+    <p class="hero-sub">Every event gets a ticket. Add the details, tear off the rest of your to-do list.</p>
+
+    <div class="stats-row" id="statsRow">
+      <div class="stat-chip">
+        <span class="stat-num" id="statTotal">0</span>
+        <span class="stat-label">total events</span>
+      </div>
+      <div class="stat-chip">
+        <span class="stat-num" id="statUpcoming">0</span>
+        <span class="stat-label">upcoming</span>
+      </div>
+      <div class="stat-chip">
+        <span class="stat-num" id="statWeek">0</span>
+        <span class="stat-label">this week</span>
+      </div>
+      <div class="stat-chip">
+        <span class="stat-num" id="statDone">0</span>
+        <span class="stat-label">completed</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="board">
+  <div class="board-inner">
+
+    <div class="controls">
+      <div class="search-wrap">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><line x1="11.5" y1="11.5" x2="15" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Search events…">
+      </div>
+
+      <div class="filter-group">
+        <select id="categoryFilter">
+          <option value="all">All categories</option>
+          <option value="wedding">Wedding</option>
+          <option value="conference">Conference</option>
+          <option value="party">Party</option>
+          <option value="meeting">Meeting</option>
+          <option value="workshop">Workshop</option>
+          <option value="other">Other</option>
+        </select>
+
+        <select id="statusFilter">
+          <option value="all">All events</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="past">Past</option>
+          <option value="completed">Completed</option>
+        </select>
+
+        <select id="sortOrder">
+          <option value="date-asc">Date ↑</option>
+          <option value="date-desc">Date ↓</option>
+          <option value="title">Title A–Z</option>
+        </select>
+      </div>
+
+      <button class="btn-primary" id="newEventBtn">
+        <span class="plus">+</span> New Event
+      </button>
+    </div>
+
+    <div class="events-grid" id="eventsGrid"></div>
+
+    <div class="empty-state" id="emptyState">
+      <div class="empty-ticket">
+        <div class="empty-stub">
+          <span class="empty-day">--</span>
+          <span class="empty-month">---</span>
+        </div>
+        <div class="empty-details">
+          <p class="empty-title">No events yet</p>
+          <p class="empty-sub">Your first ticket is waiting to be printed.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>Evntly — keep every plan, tear off none of the fun.</p>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <h2 id="modalTitle">New Event</h2>
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    </div>
+
+    <form id="eventForm" novalidate>
+      <input type="hidden" id="eventId">
+
+      <label class="field">
+        <span class="field-label">Event title</span>
+        <input type="text" id="eventTitle" placeholder="Sara &amp; Dev's Wedding" required>
+        <span class="field-error" id="errTitle">Please give your event a name.</span>
+      </label>
+
+      <div class="field-row">
+        <label class="field">
+          <span class="field-label">Date</span>
+          <input type="date" id="eventDate" required>
+          <span class="field-error" id="errDate">Pick a date.</span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Time</span>
+          <input type="time" id="eventTime">
+        </label>
+      </div>
+
+      <div class="field-row">
+        <label class="field">
+          <span class="field-label">Category</span>
+          <select id="eventCategory">
+            <option value="wedding">Wedding</option>
+            <option value="conference">Conference</option>
+            <option value="party">Party</option>
+            <option value="meeting">Meeting</option>
+            <option value="workshop">Workshop</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Location</span>
+          <input type="text" id="eventLocation" placeholder="Rosewood Hall">
+        </label>
+      </div>
+
+      <label class="field">
+        <span class="field-label">Notes</span>
+        <textarea id="eventNotes" rows="3" placeholder="Guest list, caterer, reminders…"></textarea>
+      </label>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-ghost" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn-primary" id="saveBtn">Save event</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="script3.js"></script>
+</body>
+</html>
